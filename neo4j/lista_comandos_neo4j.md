@@ -134,8 +134,80 @@ where p1.name = 'James Thompson'
 return p1, p2
 
 #### Exercise 5.3: Modify the query to retrieve nodes that are exactly three hops away:
+match (p1:Person)-[:FOLLOWS*3]-(p2:Person)
+where p1.name = 'James Thompson'
+return p1, p2
 
+#### Exercise 5.4: Modify the query to retrieve nodes that are one and two hops away:
+match (p1:Person)-[:FOLLOWS*1..2]-(p2:Person)
+where p1.name = 'James Thompson'
+return p1, p2
 
+#### Exercise 5.5: Modify the query to retrieve particular nodes that are connected no matter how many hops are required:
+match (p1:Person)-[:FOLLOWS*]-(p2:Person)
+where p1.name = 'James Thompson'
+return p1, p2
 
+#### Exercise 5.6: Specify optional data to be retrieved during the query:
+match (p:Person)
+where p.name starts with 'Tom'
+optional match (p)-[r:DIRECTED]->(m:Movie)
+return p.name, m.title
 
+#### Exercise 5.7: Retrieve nodes by collecting a list:
+match (p:Person)-[r:ACTED_IN]->(m:Movie)
+return p.name as Actor, collect(m.title) as Movies_List
 
+#### Exercise 5.9: Retrieve nodes as lists and return data associated with the corresponding lists:
+match (p:Person)-[r:REVIEWED]->(m:Movie)
+return m.title as Title, collect(p.name) as Reviewers, count(p) as Review_count
+
+#### Exercise 5.10: Retrieve nodes and their relationships as lists:
+match (d:Person)-[:DIRECTED]->(m:Movie)<-[:ACTED_IN]-(a:Person)
+return d.name as Director, count(a.name) as Number_Actors, collect(a.name) as Actors
+
+#### Exercise 5.11: Retrieve the actors who have acted in exactly five movies:
+match (a:Person)-[:ACTED_IN]->(m:Movie)
+with m, count(m) as numMovies, collect(m.title) as Movies
+where numMovies = 5
+return a.name as Actor, Movies
+
+#### Exercise 5.12: Retrieve the movies that have at least 2 directors with other optional data:
+match (d:Person)-[:DIRECTED]->(m:Movie)<-[:REVIEWED]-(r:Person)
+with d, count(d) as numDirector, collect(d.name) as Directors
+where numDirector > 2
+return m.title as Title, Directors, r.name as Reviewers
+
+### Exercício 6)
+
+#### Exercise 6.1: Execute a query that returns duplicate records:
+match (p:Person)-[:ACTED_IN]->(m:Movie)
+where m.released>=1990 and m.released < 2000
+return m.released, m.title, collect(p.name)
+
+#### Exercise 6.2: Modify the query to eliminate duplication:
+match (p:Person)-[:ACTED_IN]->(m:Movie)
+where m.released>=1990 and m.released < 2000
+return m.released, collect(m.title), collect(p.name)
+
+#### Exercise 6.3: Modify the query to eliminate more duplication:
+match (p:Person)-[:ACTED_IN]->(m:Movie)
+where m.released>=1990 and m.released < 2000
+return m.released, collect(distinct m.title), collect(p.name)
+
+#### Exercise 6.4: Sort results returned:
+match (p:Person)-[:ACTED_IN]->(m:Movie)
+where m.released>=1990 and m.released < 2000
+return m.released, collect(distinct m.title), collect(p.name)
+order by m.released desc
+
+#### Exercise 6.5: Retrieve the top 5 ratings and their associated movies:
+match (m:Movie)
+return m.title, m.rating as rating 
+order by rating desc limit 5
+
+#### Exercise 6.6: Retrieve all actors that have not appeared in more than 3 movies:
+match (p:Person)-[:ACTED_IN]->(m:Movie)
+with p, count(p) as numMovies, collect(m.title) as listMovies
+where numMovies <= 3
+return p.name, listMovies
