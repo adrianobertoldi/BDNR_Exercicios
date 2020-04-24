@@ -211,3 +211,30 @@ match (p:Person)-[:ACTED_IN]->(m:Movie)
 with p, count(p) as numMovies, collect(m.title) as listMovies
 where numMovies <= 3
 return p.name, listMovies
+
+### Exercício 7)
+
+#### Exercise 7.1: Collect and use lists:
+match (a:Person)-[:ACTED_IN]->(m:Movie), (m)<-[:PRODUCED]-(p:Person)
+with m,  collect(distinct a.name) as Actors, collect(distinct p.name) as Producers
+return distinct m.title, Actors, Producers
+order by size(Actors)
+
+#### Exercise 7.2: Collect a list:
+match (a:Person)-[:ACTED_IN]->(m:Movie)
+with a, collect(m.title) as movies
+where size(movies) > 5
+return a.name as actors, movies
+
+#### Exercise 7.3: Unwind a list:
+match (a:Person)-[:ACTED_IN]->(m:Movie)
+with a, collect(m) as movies
+where size(movies) > 5
+with a, movies unwind movies as movie
+return a.name as actors, movie.title
+
+#### Exercise 7.4: Perform a calculation with the date type:
+match (a:Person)-[:ACTED_IN]->(m:Movie)
+where a.name = 'Tom Hanks'
+return m.title, m.released, date().year - m.released as Years_of_Release, m.released - a.born as Tom_Age
+order by Tom_Age
