@@ -327,3 +327,74 @@ match (p:Person)
 where p.name = 'Robin Wright'
 return p
 
+### Exercício 9)
+
+#### Exercise 9.1: Create ACTED_IN relationships:
+match (p:Person), (m:OlderMovie)
+where p.name = 'Robin Wright' or p.name = 'Tom Hanks' or p.name = 'Gary Sinise' and m.title = 'Forrest Gump'
+create (p)-[:ACTED_IN]->(m)
+return p, m
+
+#### Exercise 9.2: Create DIRECTED relationships:
+match (p:Person)
+where p.name = 'Robert Zemeckis'
+match (m:OlderMovie)
+where m.title = 'Forrest Gump'
+create (p)-[:DIRECTED]->(m)
+
+#### Exercise 9.3: Create a HELPED relationship:
+match (p1:Person)
+where p1.name = 'Tom Hanks'
+match (p2:Person)
+where p2.name = 'Gary Sinise'
+create (p1)-[:HELPED]->(p2)
+
+#### Exercise 9.4: Query nodes and new relationships:
+match (p:Person)-[r]->(m:OlderMovie)
+where m.title = 'Forrest Gump'
+return p, r, m
+
+#### Exercise 9.5: Add properties to relationships:
+match (p:Person)-[r:ACTED_IN]->(m:OlderMovie)
+where m.title = 'Forrest Gump'
+set r.roles =
+case p.name
+when 'Tom Hanks' then ['Forrest Gump']
+when 'Robin Wright' then ['Jenny Curran']
+when 'Gary Sinise' then ['Lieutenant Dan Taylor']
+end
+
+#### Exercise 9.6: Add a property to the HELPED relationship:
+match (p1:Person)-[r:HELPED]->(p2:Person)
+where p1.name = 'Tom Hanks' and p2.name = 'Gary Sinise'
+set r.research = 'war history'
+
+#### Exercise 9.7: View the current list of property keys in the graph:
+call db.propertyKeys
+
+#### Exercise 9.8: View the current schema of the graph:
+call db.schema.visualization()
+
+#### Exercise 9.9: Retrieve the names and roles for actors:
+match (p:Person)-[r:ACTED_IN]->(m:OlderMovie)
+where m.title = 'Forrest Gump'
+return p.name, r.roles
+
+#### Exercise 9.10: Retrieve information about any specific relationships:
+match (p1:Person)-[r:HELPED]->(p2:Person)
+return p1.name, r, p2.name
+
+#### Exercise 9.11: Modify a property of a relationship:
+match (p1:Person)-[r:ACTED_IN]->(m:OlderMovie)
+where p1.name = 'Gary Sinise' and m.title = 'Forrest Gump'
+set r.roles = 'Lt. Dan Taylor'
+
+#### Exercise 9.12: Remove a property from a relationship:
+match (p1:Person)-[r:HELPED]->(p2:Person)
+where p1.name = 'Tom Hanks' and p2.name = 'Gary Sinise'
+delete r
+
+#### Exercise 9.13: Confirm that your modifications were made to the graph:
+match (p:Person)-[r:ACTED_IN]->(m:Movie)
+where m.title = 'Forrest Gump'
+return p, r, m
