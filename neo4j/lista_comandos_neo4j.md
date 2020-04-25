@@ -238,3 +238,92 @@ match (a:Person)-[:ACTED_IN]->(m:Movie)
 where a.name = 'Tom Hanks'
 return m.title, m.released, date().year - m.released as Years_of_Release, m.released - a.born as Tom_Age
 order by Tom_Age
+
+### Exercício 8)
+
+#### Exercise 8.1: Create a Movie node:
+create (:Movie {title: 'Forrest Gump'})
+
+#### Exercise 8.2: Retrieve the newly-created node:
+match (m:Movie)
+where m.title = 'Forrest Gump'
+return m
+
+#### Exercise 8.3: Create a Person node:
+match (p:Person)
+where p.name = 'Robin Wright'
+return p
+
+#### Exercise 8.4: Retrieve the newly-created node:
+match (p:Person)
+where p.name = 'Robin Wright'
+return p
+
+#### Exercise 8.5: Add a label to a node:
+match (m:Movie)
+where m.released < 2010
+set m:OlderMovie
+return m.title, labels(m)
+
+#### Exercise 8.6: Retrieve the node using the new label:
+match (m:OlderMovie)
+return m.title, m.released
+
+#### Exercise 8.7: Add the Female label to selected nodes:
+match (p:Person)
+where p.name starts with 'Robin'
+set p:Female
+return p.name
+
+#### Exercise 8.8: Retrieve all Female nodes:
+match (p:Female)
+return p.name
+
+#### Exercise 8.9: Remove the Female label from the nodes that have this label:
+match (p:Person)
+remove p:Female
+
+#### Exercise 8.10: View the current schema of the graph:
+call db.schema.visualization()
+
+#### Exercise 8.11: Add properties to a movie:
+match (m:Movie)
+where m.title = 'Forrest Gump'
+set m:OlderMovie, m.released = 1994, m.tagline = 'Life is like a box of chocolates... you never know what you`re gonna get', m.lenghtInMinutes = 142
+
+#### Exercise 8.12: Retrieve an OlderMovie node to confirm the label and properties:
+match (m:Movie)
+where m.title = 'Forrest Gump'
+return m
+
+#### Exercise 8.13: Add properties to the person, Robin Wright:
+match (p:Person)
+where p.name = 'Robin Wright'
+set p.born = 1966, p.birthPlace = "Dallas"
+return p
+
+#### Exercise 8.14: Retrieve an updated Person node:
+match (p:Person)
+where p.name = 'Robin Wright'
+return p
+
+#### Exercise 8.15: Remove a property from a Movie node:
+match (m:OlderMovie)
+where m.title = 'Forrest Gump'
+remove m.lenghtInMinutes
+
+#### Exercise 8.16: Retrieve the node to confirm that the property has been removed:
+match (m:OlderMovie)
+where m.title = 'Forrest Gump'
+return m
+
+#### Exercise 8.17: Remove a property from a Person node:
+match (p:Person)
+where p.name = 'Robin Wright'
+set p.birthPlace = null
+
+#### Exercise 8.18: Retrieve the node to confirm that the property has been removed:
+match (p:Person)
+where p.name = 'Robin Wright'
+return p
+
