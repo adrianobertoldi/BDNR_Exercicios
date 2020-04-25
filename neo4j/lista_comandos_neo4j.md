@@ -398,3 +398,34 @@ delete r
 match (p:Person)-[r:ACTED_IN]->(m:Movie)
 where m.title = 'Forrest Gump'
 return p, r, m
+
+### Exercício 10)
+
+#### Exercise 10.1: Delete a relationship:
+match (p1:Person)-[r:HELPED]->(p2:Person)
+where p1.name = 'Tom Hanks' and p2.name = 'Gary Sinise'
+delete r
+
+#### Exercise 10.2: Confirm that the relationship has been deleted:
+match (:Person)-[r:HELPED]->(p:Person)
+return r
+
+#### Exercise 10.3: Retrieve a movie and all of its relationships:
+match (p:Person)-[r]->(m:OlderMovie)
+where m.title = 'Forrest Gump'
+return p, r, m
+
+#### Exercise 10.4: Try deleting a node without detaching its relationships:
+match (p:Person)-[r]->(m:OlderMovie)
+where m.title = 'Forrest Gump'
+delete m
+
+#### Exercise 10.5: Delete a Movie node, along with its relationships:
+match (m:OlderMovie)
+where m.title = 'Forrest Gump'
+detach delete m
+
+#### Exercise 10.6: Confirm that the Movie node has been deleted:
+match (m:OlderMovie)
+where m.title = 'Forrest Gump'
+return m
