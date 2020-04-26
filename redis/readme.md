@@ -44,4 +44,4 @@ print ('Vencedor =', 'user%02d'% vencedor)
 ```
 
 Saída terminal:
-![Saída terminal](https://octodex.github.com/images/yaktocat.png)
+![Saída terminal](https://github.com/adrianobertoldi/BDNR_Exercicios/blob/master/redis/Saida_terminal.PNG)
