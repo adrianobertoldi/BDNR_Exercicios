@@ -24,33 +24,33 @@ for i in range(1,99): # gera lista com cada valor possivel (cartela)
 
 for i in range(n_users):
     r.hset('user%02d'% (i+1), 'name', 'user%02d'% (i+1))
-    #print ('user%02d'% (i+1), 'name', 'user%02d'% (i+1))
     r.hset('user%02d'% (i+1), 'bcartela', 'cartela:%02d'% (i+1))
-    #r.hset('user%02d'% (i+1), 'cartela:%02d'% (i+1), str(r.srandmember('listaNumeros', number=15)))
-    r.sadd('cartela:%02d'% (i+1), str(r.srandmember('listaNumeros', number=15)))
-    #print ('cartela:%02d'% (i+1), r.smembers('cartela:%02d'% (i+1)))
+    r.hset('user%02d'% (i+1), 'cartela:%02d'% (i+1), str(r.srandmember('listaNumeros', number=15)))
     r.hset('user%02d'% (i+1), 'bscore', 'score:%02d'% (i+1))
+    #r.hset('user%02d'% (i+1), 'score:%02d'% (i+1), '0')
     
     #r.srandmember('cartela:%02d'% (i+1), number=15) # name tem que ser uma lista de números
     
     #r.set()
     
+    ##### hget(cartela ....)
+    
 sorteioNumeros = random.sample(range(1,99),98) 
 
 for j in range(len(sorteioNumeros)):
     numSorteado = str(sorteioNumeros[j])
-    #print ('NUM Sorteado', numSorteado)
     for i in range(n_users):
-        #print('NUM Sorteado =', numSorteado, 'cartela:%02d'% (i+1), (r.smembers('cartela:%02d'% (i+1))))
-        #print (numSorteado, r.sismember('cartela:%02d'% (i+1), (r.smembers('cartela:%02d'% (i+1)))))
-        #print (r.sismember('cartela:%02d'% (i+1), numSorteado), numSorteado, r.smembers('cartela:%02d'% (i+1)))
-        print (r.hget('user%02d'% (i+1),'cartela:%02d'% (i+1)), numSorteado)
-        if numSorteado in str(r.smembers('cartela:%02d'% (i+1))) == True:
-            print ('SIMM')
-        if r.sismember('cartela:%02d'% (i+1), numSorteado) == True:            
-            r.hset('user%02d'% (i+1), 'score:%02d'% (i+1), r.sadd('score:%02d'% (i+1), 1))
-            pontuacao = r.get('score:%02d'% (i+1))
-            print ('Pontuacao do candidato {} é {}'.format(i, pontuacao))
+        #print (r.hget('user%02d'% (i+1),'cartela:%02d'% (i+1)), numSorteado)
+        cartelaUsuario = r.hget('user%02d'% (i+1),'cartela:%02d'% (i+1))
+        if numSorteado in cartelaUsuario:
+            print ('Ponto!')
+            r.hincrby('user%02d'% (i+1), 'score:%02d'% (i+1), 1)            
+            pontuacao = r.hget('user%02d'% (i+1), 'score:%02d'% (i+1))
+            print (type(pontuacao))
+            if pontuacao == str(15):
+                print ('Bingo! O candidato {} venceu!'.format(i))
+                print ('Pontuacao do candidato {} é {}'.format(i, pontuacao))
+                break
         
 
 #o que fazer:
