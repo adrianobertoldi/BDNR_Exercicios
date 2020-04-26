@@ -42,3 +42,6 @@ vencedor = sorteio()
 print ('Vencedor =', 'user%02d'% vencedor)
 
 ```
+
+Saída terminal:
+![Saída terminal](https://octodex.github.com/images/yaktocat.png)
