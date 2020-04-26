@@ -1,10 +1,12 @@
-# -*- coding: utf-8 -*-
-# Iniciar cmd com:
-# cd c:\\ProgramData\chocolatey\lib\redis-64
-# redis-server.exe
-# redis-cli.exe
+### Redisingo
 
-# Rodando em Python 3 usando ambiente Anaconda
+Para rodar esse código, foi utilizado o Python 3 em ambiente Anaconda juntamente com o módulo Redis para python. Tudo isso em um computador com windows 10.
+
+Além disso, o Redis deve estar instalado na máquina e tanto o server (redis-server.exe) quanto o client (redis-cli.exe) devem estar rodando em terminais distintos.
+
+#### Código Python
+
+```python
 
 import redis
 import random
@@ -38,3 +40,5 @@ def sorteio(): # funcao para determinar o sorteio
                     return i+1
 vencedor = sorteio()
 print ('Vencedor =', 'user%02d'% vencedor)
+
+```
