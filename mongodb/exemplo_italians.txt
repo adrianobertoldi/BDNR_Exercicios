@@ -1,0 +1,140 @@
+WriteResult({ "nInserted" : 1 })
+{
+        "firstname" : "Paolo",
+        "surname" : "Sartori",
+        "username" : "user10097",
+        "age" : 14,
+        "email" : "Paolo.Sartori@uol.com.br",
+        "bloodType" : "AB+",
+        "id_num" : "277140368161",
+        "registerDate" : ISODate("2015-12-10T03:03:46.202Z"),
+        "ticketNumber" : 3115,
+        "jobs" : [
+                "Produção de Bebidas",
+                "Geologia"
+        ],
+        "favFruits" : [
+                "Uva"
+        ],
+        "movies" : [
+                {
+                        "title" : "A Origem (2010)",
+                        "rating" : 2.22
+                },
+                {
+                        "title" : "A Lista de Schindler (1993)",
+                        "rating" : 0.13
+                },
+                {
+                        "title" : "Forrest Gump: O Contador de Histórias (1994)",
+                        "rating" : 4.25
+                },
+                {
+                        "title" : "Três Homens em Conflito (1966)",
+                        "rating" : 1.41
+                },
+                {
+                        "title" : "Forrest Gump: O Contador de Histórias (1994)",
+                        "rating" : 2.7
+                }
+        ]
+}
+WriteResult({ "nInserted" : 1 })
+{
+        "firstname" : "Massimiliano",
+        "surname" : "Marchetti",
+        "username" : "user10098",
+        "age" : 38,
+        "email" : "Massimiliano.Marchetti@gmail.com",
+        "bloodType" : "O+",
+        "id_num" : "700723564105",
+        "registerDate" : ISODate("2012-05-30T08:53:50.093Z"),
+        "ticketNumber" : 1710,
+        "jobs" : [
+                "Produção Têxtil"
+        ],
+        "favFruits" : [
+                "Goiaba"
+        ],
+        "movies" : [
+                {
+                        "title" : "Os Sete Samurais (1954)",
+                        "rating" : 1.39
+                }
+        ]
+}
+WriteResult({ "nInserted" : 1 })
+{
+        "firstname" : "Paolo",
+        "surname" : "Rizzo",
+        "username" : "user10099",
+        "age" : 61,
+        "email" : "Paolo.Rizzo@yahoo.com",
+        "bloodType" : "AB+",
+        "id_num" : "381228754435",
+        "registerDate" : ISODate("2017-10-28T08:28:40.032Z"),
+        "ticketNumber" : 4298,
+        "jobs" : [
+                "Engenharia Biomédica",
+                "Engenharia Mecânica"
+        ],
+        "favFruits" : [
+                "Maçã"
+        ],
+        "movies" : [
+                {
+                        "title" : "12 Homens e uma Sentença (1957)",
+                        "rating" : 0.67
+                },
+                {
+                        "title" : "Clube da Luta (1999)",
+                        "rating" : 2.46
+                },
+                {
+                        "title" : "Intocáveis (2011)",
+                        "rating" : 2.26
+                }
+        ],
+        "father" : {
+                "firstname" : "Giulia",
+                "surname" : "Rizzo",
+                "age" : 100
+        }
+}
+{
+        "_id" : ObjectId("5ea7805017490ace92e34242"),
+        "firstname" : "Paola",
+        "surname" : "Cattaneo",
+        "username" : "user100",
+        "age" : 19,
+        "email" : "Paola.Cattaneo@uol.com.br",
+        "bloodType" : "A-",
+        "id_num" : "748043410265",
+        "registerDate" : ISODate("2013-04-25T23:44:48.704Z"),
+        "ticketNumber" : 8618,
+        "jobs" : [
+                "Engenharia de Sistemas"
+        ],
+        "favFruits" : [
+                "Uva",
+                "Uva"
+        ],
+        "movies" : [
+                {
+                        "title" : "Interestelar (2014)",
+                        "rating" : 0.47
+                },
+                {
+                        "title" : "Intocáveis (2011)",
+                        "rating" : 2.18
+                },
+                {
+                        "title" : "Pulp Fiction: Tempo de Violência (1994)",
+                        "rating" : 3.31
+                }
+        ],
+        "cat" : {
+                "name" : "Filipo",
+                "age" : 5
+        }
+}
