@@ -138,3 +138,5 @@ WriteResult({ "nInserted" : 1 })
                 "age" : 5
         }
 }
+
+db.italians.find([ { $match: { $or: [ {"dog": { $exists: true }} , { "cat": { $exists: true }}], favFruits: { $in ["Banana", "Maçã"]}, {"age": {$gte: 12, $lte: 18} }])

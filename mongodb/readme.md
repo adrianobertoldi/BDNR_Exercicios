@@ -228,4 +228,100 @@ Type "it" for more
 { "_id" : "Fiore" }
 
 #### 20. Procure pessoas que gosta de Banana ou Maçã, tenham cachorro ou gato, mais de 20 e menos de 60 anos.
+db.italians.find( {
+    $and : [
+        { $or: [ { "dog": { $exists: true } } , {"cat": { $exists: true } } ] },
+        { favFruits: { $in: ["Banana", "Maçã"] }},
+        { $or: [ { "age" : { $gt : 20}} , {"age" : { $lt : 60}}]}])
 
+### Exercício 3)
+
+mongoimport --db stocks --collection stocks --file stock.json
+
+
+#### 1. Liste as ações com profit acima de 0.5 (limite a 10 o resultado)
+> db.stocks.find({"Profit Margin": {$gte: 0.5}}).limit(10).pretty()
+
+#### 2. Liste as ações com perdas (limite a 10 novamente)
+> db.stocks.find({"Profit Margin": {$lt: 0.0000}}).limit(10).pretty()
+
+#### 3. Liste as 10 ações mais rentáveis
+> db.stocks.find().sort({"Profit Margin": -1}).limit(10).pretty()
+
+#### 4. Qual foi o setor mais rentável?
+> db.stocks.aggregate([
+...     {
+...       "$group": {
+...         "_id": {
+...           "Industry": "$Industry",
+...           "name": "$name"
+...         },
+...         "count": {
+...           "$sum": 1
+...         }
+...       }
+...     },
+...     {
+...       "$sort": {
+...         "Profit Margin": -1,
+...         "count": 1
+...       }
+...     },
+...     {"$limit": 10}
+...   ])
+{ "_id" : { "Industry" : "Toy & Hobby Stores" }, "count" : 1 }
+{ "_id" : { "Industry" : "Photographic Equipment & Supplies" }, "count" : 1 }
+{ "_id" : { "Industry" : "Medical Practitioners" }, "count" : 1 }
+{ "_id" : { "Industry" : "Wholesale, Other" }, "count" : 1 }
+{ "_id" : { "Industry" : "Personal Computers" }, "count" : 1 }
+{ "_id" : { "Industry" : "Foreign Utilities" }, "count" : 2 }
+{ "_id" : { "Industry" : "Building Materials Wholesale" }, "count" : 2 }
+{ "_id" : { "Industry" : "Manufactured Housing" }, "count" : 2 }
+{ "_id" : { "Industry" : "Tobacco Products, Other" }, "count" : 2 }
+***{ "_id" : { "Industry" : "Music & Video Stores" }, "count" : 3 }***
+
+#### 5. Ordene as ações pelo profit e usando um cursor, liste as ações.
+> var cursor = db.stocks.find().sort({ "Profit Margin": 1}).limit(10)
+> cursor.hasNext()
+
+#### 6. Renomeie o campo “Profit Margin” para apenas “profit”.
+> db.stocks.updateMany({}, {$rename: { "Profit Margin": "profit"}})
+{ "acknowledged" : true, "matchedCount" : 6756, "modifiedCount" : 4302 }
+
+#### 7. Agora liste apenas a empresa e seu respectivo resultado
+db.stocks.aggregate([     {       "$group": {         "_id": {           "Company": "$Company",           "profit": "$profit"         },         "count": {           "$sum": 1         }       }     },     {       "$sort": {         "profit": -1,         "count": 1       }     }   ])
+
+#### 8. Analise as ações. É uma bola de cristal na sua mão... Quais as três ações você investiria?
+> db.stocks.aggregate([     {       "$group": {         "_id": {           "Company": "$Company",           "name": "$name"         },         "count": {           "$sum": 1         }       }     },     {       "$sort": {         "profit": -1,         "count": 1       }     },     {"$limit": 3}   ])
+{ "_id" : { "Company" : "Dynex Capital Inc." }, "count" : 1 }
+{ "_id" : { "Company" : "MannKind Corp." }, "count" : 1 }
+{ "_id" : { "Company" : "BlackRock Muni Intermediate Duration Fund, Inc." }, "count" : 1 }
+
+#### 9. Liste as ações agrupadas por setor
+ db.stocks.aggregate([     {       "$group": {         "_id": {           "Company": "$Company",           "Industry": "$Industry"              } } } ])
+
+### Exercício 4)
+
+mongoimport --db enron --collection enron --file enron.json
+
+
+#### 1. Liste as pessoas que enviaram e-mails (de forma distinta, ou seja, sem repetir). Quantas pessoas são?
+
+#### 2. Contabilize quantos e-mails tem a palavra “fraud”
+
+db.enron.aggregate(
+  {
+    $group: {
+      _id: {sender: "$sender"}
+    }
+  },
+  {
+    $group: {
+      _id: 1,
+      count: {
+        $sum: 1
+      }
+    }
+  },
+  {$sort: {sender: 1}}
+)
