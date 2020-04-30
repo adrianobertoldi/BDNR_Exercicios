@@ -306,22 +306,26 @@ mongoimport --db enron --collection enron --file enron.json
 
 
 #### 1. Liste as pessoas que enviaram e-mails (de forma distinta, ou seja, sem repetir). Quantas pessoas são?
+> db.enron.aggregate(   {     $group: {       _id: '$sender'     }   },   {     $group: {       _id: 1,       count: {         $sum: 1       }     }   } )
+{ "_id" : 1, "count" : 2200 }
 
 #### 2. Contabilize quantos e-mails tem a palavra “fraud”
+> db.enron.aggregate( [
+...   {
+...     "$group": {
+...       "_id": {
+...         "$text": {
+...           "$search": "fraud"
+...         }
+...       }
+...     },
+...     "$group": {
+...       "_id": 1,
+...       "count": {
+...         "$sum": 1
+...       }
+...     }
+...   }
+... ])
+{ "_id" : 1, "count" : 5929 }
 
-db.enron.aggregate(
-  {
-    $group: {
-      _id: {sender: "$sender"}
-    }
-  },
-  {
-    $group: {
-      _id: 1,
-      count: {
-        $sum: 1
-      }
-    }
-  },
-  {$sort: {sender: 1}}
-)
